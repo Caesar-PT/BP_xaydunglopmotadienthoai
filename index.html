@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .mobile{
+            width: 260px;
+            border: 1px solid;
+            padding: 15px;
+            background-color: cadetblue;
+            display: inline-block;
+        }
+        .mobile#iphone{
+            background-color: darkolivegreen;
+        }
+        input {
+            width: 250px;
+            height: 30px;
+        }
+        textarea {
+            width: 250px;
+        }
+        button {
+            padding: 15px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="mobile">
+    <label id="android-name"></label>
+    <p id="android-bettery"></p>
+    <textarea id="android-inbox" placeholder="Inbox"></textarea><br>
+    <textarea id="android-outbox" placeholder="Outbox"></textarea><br>
+    <textarea id="android-draft" placeholder="Draft"></textarea><br>
+    <input oninput="writeMess(android, this.value)" id="android-msg" type="text" placeholder="Soạn tin nhắn">
+    <br><button onclick="sendMess(android,iphone)">Send Mess</button>
+</div>
+<div class="mobile" id="iphone">
+    <label id="iphone-name"></label>
+    <p id="iphone-bettery"></p>
+    <textarea id="iphone-inbox" placeholder="Inbox"></textarea><br>
+    <textarea id="iphone-outbox" placeholder="Outbox"></textarea><br>
+    <textarea id="iphone-draft" placeholder="Draft"></textarea><br>
+    <input oninput="writeMess(iphone, this.value)" id="iphone-msg" type="text" placeholder="Soạn tin nhắn">
+    <br><button onclick="sendMess(iphone,android)">Send Mess</button>
+</div>
+<script src="mobile.js"></script>
+<script>
+    let iphone = new Mobile("Iphone 12 Pro Max", "100", "iphone");
+    let android = new Mobile("Samsung Galaxy Note Ultra 20", "100", "android");
+    console.log(iphone);
+    console.log(android);
+    function display(mobile){
+            document.getElementById(mobile.brand+'-name').innerHTML = mobile.name ;
+            document.getElementById(mobile.brand+'-inbox').innerHTML = mobile.inbox ;
+            document.getElementById(mobile.brand+'-outbox').innerHTML = mobile.outbox ;
+            document.getElementById(mobile.brand+'-draft').innerHTML = mobile.draft ;
+            document.getElementById(mobile.brand+'-bettery').innerHTML = mobile.bettery;
+    }
+    function writeMess(mobile, value){
+        mobile.writeMsg(value);
+    }
+    function sendMess(mobile1, mobile2){
+        mobile1.senMsg(mobile2);
+        mobile1.saveDraff();
+        clearInput(mobile1);
+        displayAll();
+
+    }
+    function clearInput(mobile){
+        document.getElementById(mobile.brand+"-msg").value = '';
+    }
+    function displayAll(){
+        display(android);
+        display(iphone);
+    }
+    displayAll();
+</script>
+</body>
+</html>
